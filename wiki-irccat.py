@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 import re
+import os
+import sys
 try:
     import json
 except ImportError:
@@ -10,12 +12,12 @@ import requests
 import ConfigParser
 
 parser = ConfigParser.ConfigParser()
-parser.read(['wiki-irccat.conf'])
+parser.read([os.path.join(sys.path[0], 'wiki-irccat.conf')])
 config = dict(parser.items('wiki-irccat'))
 
 url = config['url']
 short_url = config.get('short_url', url)
-revid_file = config.get('revid_file', 'revid.txt')
+revid_file = config.get('revid_file', os.path.join(sys.path[0], 'revid.txt'))
 namespaces = config.get('namespaces', '0,1').split(',')
 irccat = config.get('irccat', 'irccat')
 irccat_port = int(config.get('irccat_port', '12345'))
