@@ -21,7 +21,7 @@ revid_file = config.get('revid_file', os.path.join(sys.path[0], 'revid.txt'))
 namespaces = config.get('namespaces', '0,1').split(',')
 irccat = config.get('irccat', 'irccat')
 irccat_port = int(config.get('irccat_port', '12345'))
-channel = config.get('irccat')
+channel = config.get('channel')
 
 def ellipsize(s, maxlen=80):
     if len(s) > maxlen:
@@ -103,13 +103,17 @@ def process_changes(changes, max_id):
     return msgs, max_id
 
 def send_msgs(msgs):
+    if not msgs:
+        return
+
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((irccat, irccat_port))
+
+    if channel:
+        msgs[0] = channel + ' ' + msgs[0]
+
     for msg in msgs:
-        if channel:
-            msg = channel + ' ' + msg
-        msg += '\r\n'
-        s.send(unicode(msg).encode('utf-8'))
+        s.send(unicode(msg + '\r\n').encode('utf-8'))
 
     s.close()
 
