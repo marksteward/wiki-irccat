@@ -39,7 +39,7 @@ def ellipsize(s, maxlen=80):
 def format_comment(comment):
     # Format section like the mediawiki history page
     comment = re.sub(r'(?:/\* *(.*?) *\*/) *(.*) *', ur'\2 \u2192\1', unicode(comment))
-    return '(%s)' % ellipsize(comment.strip(), 40)
+    return ellipsize(comment.strip(), 40)
 
 def read_revid_file(revid_file):
     try:
