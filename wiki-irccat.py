@@ -63,7 +63,7 @@ def load_changes():
         'grclimit':     50,
         'format':       'json',
     }
-    resp = requests.get(url + 'api.php', params=params, verify=False)
+    resp = requests.get(url + 'api.php', params=params)
     data = json.loads(resp.text)
     return data['query']['pages']
 
